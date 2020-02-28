@@ -1,32 +1,37 @@
-/**
- * Some predefined delays (in milliseconds).
- */
-export enum Delays {
-  Short = 500,
-  Medium = 2000,
-  Long = 5000,
+const chalk = require('chalk');
+const clear = require('clear');
+const figlet = require('figlet');
+const Configstore = require('configstore');
+
+import files from './components/files';
+import github from './components/github';
+
+const conf = new Configstore('ginit');
+
+clear();
+
+console.log(chalk.yellow(figlet.textSync('Ginit', { horizontalLayout: 'full' })));
+
+function printRed(msg: string | object): void {
+  console.log(chalk.red(msg));
 }
 
-/**
- * Returns a Promise<string> that resolves after given time.
- *
- * @param {string} name - A name.
- * @param {number=} [delay=Delays.Medium] - Number of milliseconds to delay resolution of the Promise.
- * @returns {Promise<string>}
- */
-function delayedHello(
-  name: string,
-  delay: number = Delays.Medium,
-): Promise<string> {
-  return new Promise((resolve: (value?: string) => void) =>
-    setTimeout(() => resolve(`Hello, ${name}`), delay),
-  );
+function printGreen(msg: string | object): void {
+  if (typeof msg === 'object') console.log(chalk.green(msg.toString()));
+  else console.log(chalk.green(msg));
 }
 
-// Below are examples of using ESLint errors suppression
-// Here it is suppressing missing return type definitions for greeter function
-
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export async function greeter(name: string) {
-  return await delayedHello(name, Delays.Long);
+if (files.directoryExists('.git')) {
+  printRed('We already have a git repo association with this directory!');
+  process.exit();
 }
+
+async function run(): Promise<void> {
+  let token = github.getStoredGithubToken();
+  if (!token) {
+    token = (await github.getPersonalAccessToken()) as any;
+  }
+  console.log(token);
+}
+
+run();
