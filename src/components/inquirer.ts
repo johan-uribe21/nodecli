@@ -1,5 +1,5 @@
-const inquirer = require('inquirer'); //eslint-disable-line
-const minimist = require('minimist');
+import inquirer = require('inquirer');
+import minimist = require('minimist');
 
 import files from './files.js';
 import { Questions } from '../types';
@@ -34,7 +34,7 @@ function askGithubCredentials() {
   return inquirer.prompt(Questions);
 }
 
-async function getTwoFactorAuthenticationCode() {
+function getTwoFactorAuthenticationCode() {
   return inquirer.prompt({
     name: 'twoFactorAuthenticationCode',
     type: 'input',
@@ -49,7 +49,20 @@ async function getTwoFactorAuthenticationCode() {
   });
 }
 
-function askRepoDetails(): any {
+function askIgnoreFiles(filelist): any {
+  const questions = [
+    {
+      type: 'checkbox',
+      name: 'ignore',
+      message: 'Select the files and/or folders you wish to ignore:',
+      choices: filelist,
+      default: ['node_modules', 'bower_components']
+    }
+  ];
+  return inquirer.prompt(questions);
+}
+
+function askRepoDetails() {
   const argv = minimist(process.argv.slice(2));
 
   const Questions: [Questions, Questions, Questions] = [
@@ -69,7 +82,7 @@ function askRepoDetails(): any {
     {
       type: 'input',
       name: 'description',
-      message: 'Enter a name for the repository:',
+      message: 'Optional: enter a description for the repository:',
       default: argv._[0] || null,
     },
     {
@@ -87,4 +100,5 @@ export default {
   askRepoDetails,
   getTwoFactorAuthenticationCode,
   askGithubCredentials,
+  askIgnoreFiles,
 };

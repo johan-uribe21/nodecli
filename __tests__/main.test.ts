@@ -1,4 +1,4 @@
-import { run } from '../src/main';
+import { run } from '../src';
 
 describe('run function', () => {
   // Read more about fake timers

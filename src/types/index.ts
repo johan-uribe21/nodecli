@@ -13,3 +13,9 @@ export interface Questions {
   validate?(value: string): boolean | string;
   choices?: string[];
 }
+
+export interface RepoDetails {
+  name: string,
+  description: string,
+  private: boolean,
+}

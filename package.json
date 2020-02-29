@@ -1,9 +1,12 @@
 {
-  "name": "nodecli",
+  "name": "ginit",
   "version": "0.0.0",
   "description": "Minimalistic boilerplate to quick-start Node.js development in TypeScript.",
   "engines": {
-    "node": ">= 12.13 <13"
+    "node": ">= 12.13"
+  },
+  "bin": {
+    "ginit": "./build/src/index.js"
   },
   "scripts": {
     "clean": "rimraf coverage build tmp",
@@ -12,8 +15,8 @@
     "lint": "eslint . --ext .ts,.tsx",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "start": "node ./build/src/main.js",
-    "go": "tsc -p tsconfig.release.json; node ./build/src/main.js"
+    "start": "node ./build/src/index.js",
+    "go": "tsc -p tsconfig.release.json; node ./build/src/index.js"
   },
   "devDependencies": {
     "@types/jest": "~25.1.2",

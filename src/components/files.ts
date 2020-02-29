@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import fs = require('fs');
+import path = require('path');
 
 function getCurrentDirectoryBase(): string {
   return path.basename(process.cwd());
@@ -10,5 +10,3 @@ function directoryExists(filePath: string): boolean {
 }
 
 export default { getCurrentDirectoryBase, directoryExists };
-
-console.log('current dir', path.basename(process.cwd()));
